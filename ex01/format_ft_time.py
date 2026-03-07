@@ -1,10 +1,12 @@
+import time
 from datetime import datetime
 
-time_now  = datetime.now()
-time_base = datetime(1970,1,1)
-delta_time = time_now - time_base
-delta_time_seconds = delta_time.total_seconds()
+def print_time() -> tuple[str, str]:
+    epoch = time.time()
+    text = f"Seconds since January 1, 1970: {epoch:,.4f} or {epoch:.2e} in scientific notation"
+    time_str = datetime.now().strftime('%b %d %Y')
+    return text, time_str
 
-
-print(f"Seconds since January 1, 1970: {delta_time_seconds:,.4f} or {delta_time_seconds:.2e} in scientific notation")
-print(time_now.strftime('%b %-d %Y'))
+if __name__ == "__main__":
+    delta, now = print_time()
+    print(f"{delta}\n{now}")

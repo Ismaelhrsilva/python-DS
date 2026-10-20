@@ -44,16 +44,16 @@ def main():
     }
 
     try:
-        assert len(sys.argv) == 2
-        assert all(c.upper() in MORSE for c in sys.argv[1])
-    except AssertionError:
-        print("AssertionError: the arguments are bad")
-        return
+        assert len(sys.argv) == 2, "the arguments are bad"
+        text = sys.argv[1]
+        text_morse = []
+        for letter in text:
+            assert letter.upper() in MORSE, "the arguments are bad"
+            text_morse.append(MORSE[letter.upper()])
+        print("".join(text_morse).rstrip())
 
-    result = []
-    for char in sys.argv[1].upper():
-        result.append(MORSE[char])
-    print("".join(result).rstrip())
+    except AssertionError as e:
+        print(f"AssertionError: {e}")
 
 
 if __name__ == "__main__":

@@ -1,43 +1,27 @@
-# How to Build and Install `ft_package`
+# ft_package
 
-1. **Build the package**
+A sample test package (42 Piscine Python for Data Science — module 00, ex09).
 
-    Inside the `ft_package` folder, run:
+## Build
 
-    ```bash
-    python -m build
-    ```
+```bash
+pip install build
+python -m build
+```
 
-    This command uses the `pyproject.toml` file to instruct Python how to build the package. The build artifacts will be created in the `dist/` directory.
+## Install
 
-2. **Install the package**
+```bash
+pip install ./dist/ft_package-0.0.1.tar.gz
+# or
+pip install ./dist/ft_package-0.0.1-py3-none-any.whl
+```
 
-    To install the package using `pip`, run one of the following commands:
+## Usage
 
-    ```bash
-    pip install ./dist/ft_package-0.0.1.tar.gz
-    ```
+```python
+from ft_package import count_in_list
 
-    or
-
-    ```bash
-    pip install ./dist/ft_package-0.0.1-py3-none-any.whl
-    ```
-
-3. **Test the package**
-
-    After installation, you can test the package by running:
-
-    ```bash
-    python3 ../tester.py
-    ```
-
-4. **Uninstall the package**
-
-    If you need to remove the package, use:
-
-    ```bash
-    pip uninstall ft_package
-    ```
-
-    This will uninstall `ft_package` from your Python environment.
+print(count_in_list(["toto", "tata", "toto"], "toto"))  # 2
+print(count_in_list(["toto", "tata", "toto"], "tutu"))  # 0
+```

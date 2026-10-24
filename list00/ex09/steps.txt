@@ -1,0 +1,24 @@
+cd list00
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r ex09/requirements.txt
+cd ex09
+python -m build
+ls dist
+
+pip install ./dist/ft_package-0.0.1.tar.gz
+pip list | grep ft_package
+pip show -v ft_package
+cd /tmp
+python -c 'from ft_package import count_in_list; print(count_in_list(["toto", "tata", "toto"], "toto")); print(count_in_list(["toto", "tata", "toto"], "tutu"))'
+cd -
+
+pip uninstall -y ft_package
+pip install ./dist/ft_package-0.0.1-py3-none-any.whl
+pip show -v ft_package
+cd /tmp
+python -c 'from ft_package import count_in_list; print(count_in_list(["toto", "tata", "toto"], "toto")); print(count_in_list(["toto", "tata", "toto"], "tutu"))'
+cd -
+
+flake8 ft_package
+deactivate

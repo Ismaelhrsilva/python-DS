@@ -1,15 +1,19 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "ft_package"
 version = "0.0.1"
-description = "A simple Python package"
-authors = [{name = "Ismael Henrique da Silva", email = "ishenriq@student.42sp.org.br"}]
-license = {text = "MIT"}
+description = "A sample test package"
 readme = "README.md"
-requires-python = ">=3.10"
-dependencies = [
-    "build>=1.4.0",
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    {name = "Ismael"},
+    {email = "ishenriq@student.42sp.org.br"},
 ]
+requires-python = ">=3.10"
+
+[project.urls]
+Homepage = "https://github.com/Ismaelhrsilva/python-DS"

@@ -5,64 +5,63 @@ def give_bmi(
     height: list[int | float], weight: list[int | float]
 ) -> list[int | float]:
     """
-    Compute BMI for each height/weight pair.
+    Compute the BMI (weight / height ** 2) for each height/weight pair.
 
-    Parameters
-    ----------
-    height : list[int | float]
-        List of heights (in meters).
-    weight : list[int | float]
-        List of weights (in kilograms).
-
-    Returns
-    -------
-    list[int | float]
-        BMI values (weight / height^2) for each pair.
-
-    Raises
-    ------
-    AssertionError
-        If lists have different sizes or contain non-numeric values.
+    Both lists must contain only int or float values (bool is rejected),
+    have the same size and contain only values greater than zero.
+    On invalid input, print the error and return an empty list.
     """
-    if len(height) != len(weight):
-        raise AssertionError("height and weight have not the same size")
-    for h, w in zip(height, weight):
-        if not isinstance(h, (int, float)) or isinstance(h, bool):
-            raise AssertionError("height has a non-numeric value")
-        if not isinstance(w, (int, float)) or isinstance(w, bool):
-            raise AssertionError("weight has a non-numeric value")
+    try:
+        assert isinstance(height, list), "height is not a list"
+        assert isinstance(weight, list), "weight is not a list"
+        assert all(
+            isinstance(x, (int, float)) and not isinstance(x, bool)
+            for x in height
+        ), "height must contain only int or float"
+        assert all(
+            isinstance(x, (int, float)) and not isinstance(x, bool)
+            for x in weight
+        ), "weight must contain only int or float"
+        assert len(height) == len(weight), \
+            "height and weight must have the same size"
+        assert all(h > 0 for h in height), \
+            "height contains a value lower or equal to zero"
+        assert all(w > 0 for w in weight), \
+            "weight contains a value lower or equal to zero"
 
-    h_array = np.array(height)
-    w_array = np.array(weight)
-    bmi = w_array / h_array ** 2
-    return bmi.tolist()
+        height_array = np.array(height)
+        weight_array = np.array(weight)
+        bmi = weight_array / height_array ** 2
+
+        return bmi.tolist()
+    except AssertionError as e:
+        print(f"AssertionError: {e}")
+        return []
 
 
 def apply_limit(bmi: list[int | float], limit: int) -> list[bool]:
     """
-    Return a boolean list indicating which BMI values exceed the limit.
+    Return a list of booleans: True where the BMI is above the limit.
 
-    Parameters
-    ----------
-    bmi : list[int | float]
-        List of BMI values.
-    limit : int
-        Numeric threshold to compare against.
-
-    Returns
-    -------
-    list[bool]
-        True for each BMI value strictly greater than limit.
-
-    Raises
-    ------
-    AssertionError
-        If bmi contains non-numeric values or limit is not an int.
+    bmi must be a non-empty list of positive int or float values and
+    limit a positive int (bool is rejected in both).
+    On invalid input, print the error and return an empty list.
     """
-    for b in bmi:
-        if not isinstance(b, (int, float)) or isinstance(b, bool):
-            raise AssertionError("bmi has a non-numeric value")
-        if not isinstance(limit, int) or isinstance(limit, bool):
-            raise AssertionError("bmi has a non-numeric value")
-    bmi = np.array(bmi)
-    return (bmi > limit).tolist()
+    try:
+        assert isinstance(bmi, list), "bmi is not a list"
+        assert all(
+            isinstance(x, (int, float)) and not isinstance(x, bool)
+            for x in bmi
+        ), "bmi must contain only int or float"
+        assert len(bmi) > 0, "bmi is empty"
+        assert all(b > 0 for b in bmi), \
+            "bmi contains a value lower or equal to zero"
+        assert isinstance(limit, int) and not isinstance(limit, bool), \
+            "limit is not an integer"
+        assert limit > 0, "limit is lower or equal to zero"
+
+        bmi_array = np.array(bmi)
+        return (bmi_array > limit).tolist()
+    except AssertionError as e:
+        print(f"AssertionError: {e}")
+        return []

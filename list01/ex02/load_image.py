@@ -1,38 +1,24 @@
-import os
-
 import numpy as np
-from matplotlib import image as mpimg
+from PIL import Image
 
 
-def ft_load(path: str) -> np.ndarray | None:
+def ft_load(path: str) -> np.ndarray:
     """
-    Load an image from disk, print its shape and return its pixels.
+    Load a JPG/JPEG image, print its shape and return its RGB pixels.
 
-    Reads the image located at `path` with matplotlib.image.imread and
-    prints the shape of the resulting array. JPG and JPEG images are
-    loaded as uint8 arrays of shape (H, W, 3) in RGB format.
-
-    Parameters
-    ----------
-    path : str
-        Filesystem path to the image to load.
-
-    Returns
-    -------
-    numpy.ndarray or None
-        The image data as a NumPy array, or None if the image could not
-        be loaded. Every error is caught and reported with a clear
-        message instead of raising.
+    The image is converted to RGB, so the returned array always has
+    shape (height, width, 3) with uint8 values. On any error a clear
+    message is printed and an empty array is returned.
     """
     try:
-        if not isinstance(path, str):
-            raise TypeError(f"path must be a str, not {type(path).__name__}")
-        if not os.path.isfile(path):
-            raise FileNotFoundError(f"no such file: {path}")
+        assert isinstance(path, str), "path is not a string"
 
-        image = mpimg.imread(path)
-        print(f"The shape of image is: {image.shape}")
-        return image
-    except Exception as error:
-        print(f"{type(error).__name__}: {error}")
-        return None
+        img = Image.open(path)
+        assert img.format == "JPEG", "image is not JPG/JPEG"
+
+        img_array = np.array(img.convert("RGB"))
+        print(f"The shape of image is: {img_array.shape}")
+        return img_array
+    except Exception as e:
+        print(f"{type(e).__name__}: {e}")
+        return np.array([])

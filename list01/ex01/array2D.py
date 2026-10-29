@@ -3,42 +3,30 @@ import numpy as np
 
 def slice_me(family: list, start: int, end: int) -> list:
     """
-    Slice a 2D list by row range and return the result as a list.
+    Print the shape of a 2D list, slice its rows from start to end
+    and return the slice as a list, after printing its new shape.
 
-    Parameters
-    ----------
-    family : list
-        A 2D list (list of lists) to be sliced.
-    start : int
-        Start row index (inclusive).
-    end : int
-        End row index (exclusive). Supports negative indices.
-
-    Returns
-    -------
-    list
-        Sliced rows as a Python list. Returns [] if family has
-        inconsistent row sizes.
-
-    Raises
-    ------
-    AssertionError
-        If family is not a list or start/end are not integers.
+    start and end must be int (bool is rejected) and family a list
+    that converts to a 2D array (all rows with the same size).
+    On invalid input, print the error and return an empty list.
     """
-    if not isinstance(start, int) or isinstance(start, bool):
-        raise AssertionError("start in not an integer")
-    if not isinstance(end, int) or isinstance(end, bool):
-        raise AssertionError("end in not an integer")
-    if not isinstance(family, list):
-        raise AssertionError("family in not a list")
-
     try:
-        family_array = np.array(family)
-        new_family_array = family_array[start:end]
-    except ValueError as e:
-        print(f"Error: {e}")
-        return []
+        assert isinstance(start, int) and not isinstance(start, bool), \
+            "start is not an integer"
+        assert isinstance(end, int) and not isinstance(end, bool), \
+            "end is not an integer"
+        assert isinstance(family, list), "family is not a list"
 
-    print(f"My shape is : {family_array.shape}")
-    print(f"My new shape is : {new_family_array.shape}")
-    return new_family_array.tolist()
+        family = np.array(family)
+        assert family.ndim == 2, "family is not a valid 2D array"
+
+        print(f"My shape is : {family.shape}")
+        new = family[start:end]
+        print(f"My new shape is : {new.shape}")
+        return new.tolist()
+    except AssertionError as e:
+        print(f"AssertionError: {e}")
+        return []
+    except ValueError:
+        print("AssertionError: family rows must have the same size")
+        return []
